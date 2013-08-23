@@ -1,6 +1,14 @@
 {
 	"name": "bttrfly",
-	"version": "0.0.0",
+	"version": "0.1.0",
+	"description": "Social mass texting.",
+	"homepage": "https://github.com/tkazec/bttrfly",
+	"bugs": "https://github.com/tkazec/bttrfly/issues",
+	"license": "MIT",
+	"author": "Teddy Cross <me@tkaz.ec> (http://tkaz.ec)",
+	"main": "./index",
+	"bin": "./bttrfly",
+	"repository": "git://github.com/tkazec/bttrfly",
 	"dependencies": {
 		"async": "~0.2.9",
 		"ff": "~0.1.3",
@@ -9,5 +17,6 @@
 	"engines": {
 		"node": "~0.10.15",
 		"npm": "~1.3.5"
-	}
+	},
+	"preferGlobal": true
 }
