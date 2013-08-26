@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+
+var program = require("commander");
+var ProgressBar = require("progress");
+
+program
+	.version(require("./package.json").version)
+	.option("-e, --email <txt>", "Google Voice email address.")
+	.option("-p, --pass <txt>", "Google Voice password.")
+	.option("-t, --tokens <obj>", "JSON object of Google Voice tokens.")
+	.option("-c, --contacts <arr>", "JSON array of objects of contacts to text.")
+	.option("-m, --message <str>", "JSON string message to text.")
+	.parse(process.argv);
+
+var run = function (config) {
+	config = {
+		email: program.email || config.email,
+		pass: program.pass || config.pass,
+		tokens: program.tokens ? JSON.parse(program.tokens) : config.tokens,
+		contacts: program.contacts ? JSON.parse(program.contacts) : config.contacts,
+		message: program.message ? JSON.parse(program.message) : config.message
+	};
+	
+	var bar = new ProgressBar("Texting :current of :total.\t[:bar]\t:percent :etas", {
+		incomplete: " ",
+		width: 50,
+		total: config.contacts.length
+	});
+	
+	var queue = "\n";
+	
+	require("./index")(config).on("send", function (err, contact) {
+		if (err) { queue += "Error texting " + contact.phone + ": " + err + "\n"; }
+		bar.tick();
+	}).on("done", function () {
+		console.log(queue + "Texts sent!");
+	});
+};
+
+if (process.stdin.isTTY) {
+	run({});
+} else {
+	var config = "";
+	
+	process.stdin.on("readable", function () {
+		config += this.read() || "";
+	}).on("end", function () {
+		run(JSON.parse(config || "{}"));
+	});
+}
