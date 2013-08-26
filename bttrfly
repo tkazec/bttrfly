@@ -15,7 +15,7 @@ program
 var run = function (config) {
 	config = {
 		email: program.email || config.email,
-		pass: program.pass || config.pass,
+		password: program.pass || config.pass,
 		tokens: program.tokens ? JSON.parse(program.tokens) : config.tokens,
 		contacts: program.contacts ? JSON.parse(program.contacts) : config.contacts,
 		message: program.message ? JSON.parse(program.message) : config.message
@@ -32,8 +32,9 @@ var run = function (config) {
 	require("./index")(config).on("send", function (err, contact) {
 		if (err) { queue += "Error texting " + contact.phone + ": " + err + "\n"; }
 		bar.tick();
-	}).on("done", function () {
+	}).on("done", function (tokens) {
 		console.log(queue + "Texts sent!");
+		console.log("Tokens used: " + JSON.stringify(tokens));
 	});
 };
 

@@ -22,7 +22,7 @@ module.exports = function (options) {
 			next();
 		});
 	}, function () {
-		stream.emit("done");
+		stream.emit("done", client.getTokens());
 	});
 	
 	return stream;
