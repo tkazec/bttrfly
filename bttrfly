@@ -5,31 +5,52 @@ var ProgressBar = require("progress");
 
 program
 	.version(require("./package.json").version)
-	.option("-e, --email <txt>", "Google Voice email address.")
+	.option("-u, --user <txt>", "Google Voice email address.")
 	.option("-p, --pass <txt>", "Google Voice password.")
 	.option("-t, --tokens <obj>", "JSON object of Google Voice tokens.")
 	.option("-c, --contacts <arr>", "JSON array of objects of contacts to text.")
 	.option("-m, --message <str>", "JSON string message to text.")
+	.option("-d, --dry", "Log texts instead of sending them.")
+	.on("--help", function () {
+		console.log("    Pipe JSON to populate any of the properties. Options take precedence.");
+		console.log();
+		console.log("  Properties:");
+		console.log();
+		console.log("    user: Email address you log in to Google Voice with.");
+		console.log("    pass: Password you log in to Google Voice with.");
+		console.log("          If 2-step verification is on, use an application-specific password.");
+		console.log("    tokens: Optional Google Voice tokens (logged when run).");
+		console.log("    contacts: List of contacts, each with at least a `phone` key.");
+		console.log("    message: Text to send. #{keys} are replaced with data from contacts.");
+		console.log();
+		console.log("  Examples:");
+		console.log();
+		console.log("    $ bttrfly -u foo@bar.com -p foobar -c '[...]' -m '\"Hello world!\"'");
+		console.log("    $ cat contacts.json | bttrfly -p foobar -m '\"Hey #{fname}! Sup?\"'");
+		console.log();
+		console.log("  API: require(\"bttrfly\")(options, onsend(error, contact), ondone(tokens));");
+		console.log();
+	})
 	.parse(process.argv);
 
-var run = function (config) {
-	config = {
-		email: program.email || config.email,
-		password: program.pass || config.pass,
-		tokens: program.tokens ? JSON.parse(program.tokens) : config.tokens,
-		contacts: program.contacts ? JSON.parse(program.contacts) : config.contacts,
-		message: program.message ? JSON.parse(program.message) : config.message
+var run = function (options) {
+	options = {
+		email: program.user || options.user,
+		password: program.pass || options.pass,
+		tokens: program.tokens ? JSON.parse(program.tokens) : options.tokens,
+		contacts: program.contacts ? JSON.parse(program.contacts) : options.contacts,
+		message: program.message ? JSON.parse(program.message) : options.message
 	};
 	
 	var bar = new ProgressBar("Texting :current of :total.\t[:bar]\t:percent :etas", {
 		incomplete: " ",
 		width: 50,
-		total: config.contacts.length
+		total: options.contacts.length
 	});
 	
 	var queue = "\n";
 	
-	require("./index")(config).on("send", function (err, contact) {
+	require("./index")(options).on("send", function (err, contact) {
 		if (err) { queue += "Error texting " + contact.phone + ": " + err + "\n"; }
 		bar.tick();
 	}).on("done", function (tokens) {
@@ -41,11 +62,11 @@ var run = function (config) {
 if (process.stdin.isTTY) {
 	run({});
 } else {
-	var config = "";
+	var options = "";
 	
 	process.stdin.on("readable", function () {
-		config += this.read() || "";
+		options += this.read() || "";
 	}).on("end", function () {
-		run(JSON.parse(config || "{}"));
+		run(JSON.parse(options || "{}"));
 	});
 }
