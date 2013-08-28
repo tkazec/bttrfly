@@ -1,5 +1,3 @@
-var EventEmitter = require("events").EventEmitter;
-
 var async = require("async");
 var voice = require("voice.js");
 
@@ -9,21 +7,48 @@ var format = function (message, contact) {
 	});
 };
 
-module.exports = function (options) {
-	var stream = new EventEmitter();
-	var client = new voice.Client(options);
-	
-	async.eachSeries(options.contacts, function (contact, next) {
-		client.sms({
-			to: contact.phone.toString(),
-			text: format(options.message, contact)
-		}, function (err) {
-			stream.emit("send", err, contact);
-			next();
-		});
-	}, function () {
-		stream.emit("done", client.getTokens());
+module.exports = function (options, onsend, ondone) {
+	var client = new voice.Client({
+		email: options.email,
+		password: options.password,
+		tokens: options.tokens
 	});
 	
-	return stream;
+	if (!ondone) {
+		ondone = onsend;
+		onsend = undefined;
+	}
+	
+	async.eachSeries(options.contacts, function (contact, next) {
+		if (contact.skip) {
+			return setImmediate(next);
+		}
+		
+		if (!options.dry) {
+			client.sms({
+				to: contact.phone.toString(),
+				text: format(options.message, contact)
+			}, function (err) {
+				if (onsend) {
+					onsend(err, contact);
+				}
+				
+				next();
+			});
+		} else {
+			if (onsend) {
+				onsend(format(options.message, contact), contact);
+			}
+			
+			setImmediate(next);
+		}
+	}, function () {
+		if (ondone) {
+			if (!options.dry) {
+				ondone(client.getTokens());
+			} else {
+				ondone();
+			}
+		}
+	});
 };

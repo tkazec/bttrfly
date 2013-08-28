@@ -14,7 +14,7 @@ Social mass texting. https://npmjs.org/package/bttrfly
 	    -V, --version         output the version number
 	    -u, --user <txt>      Google Voice email address.
 	    -p, --pass <txt>      Google Voice password.
-	    -t, --tokens <obj>    JSON object of Google Voice tokens.
+	    -t, --tokens <obj>    JSON object of Google Voice auth tokens.
 	    -c, --contacts <arr>  JSON array of objects of contacts to text.
 	    -m, --message <str>   JSON string message to text.
 	    -d, --dry             Log texts instead of sending them.
@@ -26,8 +26,8 @@ Social mass texting. https://npmjs.org/package/bttrfly
 	    user: Email address you log in to Google Voice with.
 	    pass: Password you log in to Google Voice with.
 	          If 2-step verification is on, use an application-specific password.
-	    tokens: Optional Google Voice tokens (logged when run).
-	    contacts: List of contacts, each with at least a `phone` key.
+	    tokens: Optional Google Voice auth tokens. Logged after texts are sent.
+	    contacts: List of contacts. Meaningful keys: phone, skip.
 	    message: Text to send. #{keys} are replaced with data from contacts.
 
 	  Examples:
