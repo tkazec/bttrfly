@@ -37,6 +37,8 @@ Social mass texting. https://npmjs.org/package/bttrfly
 
 	  API: require("bttrfly")(options, onsend(error, contact), ondone(tokens));
 
+	  Warning: Use at your own risk. ;)
+
 ---
 
 © 2013 [Teddy Cross](http://tkaz.ec), shared under the [MIT License](http://www.opensource.org/licenses/MIT).

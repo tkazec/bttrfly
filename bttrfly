@@ -31,6 +31,8 @@ program
 		console.log();
 		console.log("  API: require(\"bttrfly\")(options, onsend(error, contact), ondone(tokens));");
 		console.log();
+		console.log("  Warning: Use at your own risk. ;)");
+		console.log();
 	})
 	.parse(process.argv);
 
