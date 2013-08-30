@@ -28,9 +28,9 @@ module.exports = function (options, onsend, ondone) {
 			client.sms({
 				to: contact.phone.toString(),
 				text: format(options.message, contact)
-			}, function (err) {
+			}, function (err, res, msg) {
 				if (onsend) {
-					onsend(err, contact);
+					onsend(err || (msg.send_sms_response !== 0 ? 'sms res ' + msg.send_sms_response : null), contact);
 				}
 				
 				next();
