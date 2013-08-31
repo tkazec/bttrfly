@@ -33,7 +33,7 @@ module.exports = function (options, onsend, ondone) {
 					onsend(err || (msg.send_sms_response !== 0 ? 'sms res ' + msg.send_sms_response : null), contact);
 				}
 				
-				next();
+				setTimeout(next, 1000);
 			});
 		} else {
 			if (onsend) {
