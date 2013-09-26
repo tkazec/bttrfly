@@ -48,13 +48,14 @@ var run = function (options) {
 	
 	if (!options.dry) {
 		var bar = new ProgressBar("Texting :current of :total.\t[:bar]\t:percent :etas", {
-			incomplete: " ",
+			total: options.contacts.length,
 			width: 40,
-			total: options.contacts.length
+			incomplete: " ",
+			clear: true
 		});
 	}
 	
-	var queue = "\n";
+	var queue = "";
 	
 	bttrfly(options, function (err, contact) {
 		if (err) {

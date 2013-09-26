@@ -1,6 +1,6 @@
 {
 	"name": "bttrfly",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "Social mass texting.",
 	"homepage": "https://github.com/tkazec/bttrfly",
 	"bugs": "https://github.com/tkazec/bttrfly/issues",
@@ -12,7 +12,7 @@
 	"dependencies": {
 		"async": "~0.2.9",
 		"commander": "~2.0.0",
-		"progress": "~1.0.0",
+		"progress": "~1.1.0",
 		"voice.js": "~0.1.4-b"
 	},
 	"engines": {
