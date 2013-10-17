@@ -38,8 +38,8 @@ program
 
 var run = function (options) {
 	options = {
-		email: program.user || options.user,
-		password: program.pass || options.pass,
+		user: program.user || options.user,
+		pass: program.pass || options.pass,
 		tokens: program.tokens ? JSON.parse(program.tokens) : options.tokens,
 		contacts: program.contacts ? JSON.parse(program.contacts) : options.contacts,
 		message: program.message ? JSON.parse(program.message) : options.message,

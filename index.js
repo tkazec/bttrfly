@@ -9,8 +9,8 @@ var format = function (message, contact) {
 
 module.exports = function (options, onsend, ondone) {
 	var client = new voice.Client({
-		email: options.email,
-		password: options.password,
+		email: options.user,
+		password: options.pass,
 		tokens: options.tokens
 	});
 	
