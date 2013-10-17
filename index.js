@@ -30,7 +30,7 @@ module.exports = function (options, onsend, ondone) {
 				text: format(options.message, contact)
 			}, function (err, res, msg) {
 				if (onsend) {
-					onsend(err || (msg.send_sms_response !== 0 ? 'sms res ' + msg.send_sms_response : null), contact);
+					onsend(err || (msg.send_sms_response !== 0 ? "sms res " + msg.send_sms_response : null), contact);
 				}
 				
 				setTimeout(next, 1000);
@@ -42,12 +42,12 @@ module.exports = function (options, onsend, ondone) {
 			
 			setImmediate(next);
 		}
-	}, function () {
+	}, function (err) {
 		if (ondone) {
 			if (!options.dry) {
-				ondone(client.getTokens());
+				ondone(err, client.getTokens());
 			} else {
-				ondone();
+				ondone(err);
 			}
 		}
 	});

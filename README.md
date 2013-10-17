@@ -35,7 +35,7 @@ Social mass texting. https://npmjs.org/package/bttrfly
 	    $ bttrfly -u foo@bar.com -p foobar -c '[...]' -m '"Hello world!"'
 	    $ cat contacts.json | bttrfly -p foobar -m '"Hey #{fname}! Sup?"'
 
-	  API: require("bttrfly")(options, onsend(error, contact), ondone(tokens));
+	  API: require("bttrfly")(options, onsend(err, contact), ondone(err, tokens));
 
 	  Warning: Use at your own risk. ;)
 

@@ -29,7 +29,7 @@ program
 		console.log("    $ bttrfly -u foo@bar.com -p foobar -c '[...]' -m '\"Hello world!\"'");
 		console.log("    $ cat contacts.json | bttrfly -p foobar -m '\"Hey #{fname}! Sup?\"'");
 		console.log();
-		console.log("  API: require(\"bttrfly\")(options, onsend(error, contact), ondone(tokens));");
+		console.log("  API: require(\"bttrfly\")(options, onsend(err, contact), ondone(err, tokens));");
 		console.log();
 		console.log("  Warning: Use at your own risk. ;)");
 		console.log();
@@ -69,7 +69,7 @@ var run = function (options) {
 		if (!options.dry) {
 			bar.tick();
 		}
-	}, function (tokens) {
+	}, function (err, tokens) {
 		if (!options.dry) {
 			console.log(queue + "Texts sent!");
 			console.log("Tokens used: " + JSON.stringify(tokens));
