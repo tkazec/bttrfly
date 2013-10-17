@@ -46,6 +46,10 @@ var run = function (options) {
 		dry: program.dry
 	};
 	
+	if (!options.user || !options.pass || !options.tokens || !options.contacts || !options.message) {
+		return program.help();
+	}
+	
 	if (!options.dry) {
 		var bar = new ProgressBar("Texting :current of :total.\t[:bar]\t:percent :etas", {
 			total: options.contacts.length,
