@@ -46,17 +46,19 @@ var run = function (options) {
 		dry: program.dry
 	};
 	
-	if (!options.user || !options.pass || !options.tokens || !options.contacts || !options.message) {
+	if (!options.user || !options.pass || !options.contacts || !options.message) {
 		return program.help();
 	}
 	
 	if (!options.dry) {
-		var bar = new ProgressBar("Texting :current of :total.\t[:bar]\t:percent :etas", {
+		var bar = new ProgressBar("Texted :current of :total.\t[:bar]\t:percent :etas", {
 			total: options.contacts.length,
 			width: 40,
 			incomplete: " ",
 			clear: true
 		});
+		
+		bar.tick(0);
 	}
 	
 	var queue = "";
