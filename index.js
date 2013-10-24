@@ -29,8 +29,12 @@ module.exports = function (options, onsend, ondone) {
 				to: contact.phone.toString(),
 				text: format(options.message, contact)
 			}, function (err, res, msg) {
+				err = err || (msg.send_sms_response !== 0 ? "sms res " + msg.send_sms_response : null);
+				
 				if (onsend) {
-					onsend(err || (msg.send_sms_response !== 0 ? "sms res " + msg.send_sms_response : null), contact);
+					if (onsend(err, contact) === false) {
+						return next("canceled");
+					}
 				}
 				
 				setTimeout(next, 1000);
