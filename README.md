@@ -23,8 +23,8 @@ Social mass texting. https://npmjs.org/package/bttrfly
 
 	  Properties:
 
-	    user: Email address you log in to Google Voice with.
-	    pass: Password you log in to Google Voice with.
+	    user: Email address you sign in to Google Voice with.
+	    pass: Password you sign in to Google Voice with.
 	          If 2-step verification is on, use an application-specific password.
 	    tokens: Optional Google Voice auth tokens. Logged after texts are sent.
 	    contacts: List of contacts. Meaningful keys: phone, skip.

@@ -17,8 +17,8 @@ program
 		console.log();
 		console.log("  Properties:");
 		console.log();
-		console.log("    user: Email address you log in to Google Voice with.");
-		console.log("    pass: Password you log in to Google Voice with.");
+		console.log("    user: Email address you sign in to Google Voice with.");
+		console.log("    pass: Password you sign in to Google Voice with.");
 		console.log("          If 2-step verification is on, use an application-specific password.");
 		console.log("    tokens: Optional Google Voice auth tokens. Logged after texts are sent.");
 		console.log("    contacts: List of contacts. Meaningful keys: phone, skip.");
@@ -73,6 +73,8 @@ var run = function (options) {
 		}
 	}, function (err, tokens) {
 		if (!options.dry) {
+			bar.terminate();
+			
 			console.log(queue + "Texts sent!");
 			console.log("Tokens used: " + JSON.stringify(tokens));
 		} else {
